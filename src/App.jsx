@@ -1,10 +1,161 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const fortunes = [
+  'Bugün cesur bir karar, yarın büyük bir fırsat getirir.',
+  'Kalbini dinlediğinde doğru yolu bulacaksın.',
+  'Yolun, yeni bir dostlukla aydınlanıyor.',
+  'Sürpriz bir teklif motivasyonunu tazeleyecek.',
+  'Küçük bir adım, büyük bir dönüşüm başlatır.',
+  'Sevgi ve emek birleştiğinde bereket artar.',
+  'Yakında güzel bir haber sabrını ödüllendirecek.',
+  'Hayal ettiğin plan, beklenmedik bir destekle büyür.',
+];
+
+const insights = [
+  {
+    title: 'Gökyüzü Rehberi',
+    description:
+      'Yıldız haritanı modern yorumlarla keşfet; kişisel ritmini yakala.',
+  },
+  {
+    title: 'Kahve Falı',
+    description:
+      'Her fincanda yeni bir hikâye. Detaylar artık seninle konuşuyor.',
+  },
+  {
+    title: 'Enerji Dengesi',
+    description:
+      'Günlük ritüellerle zihnini sadeleştir, enerjini yeniden hizala.',
+  },
+];
+
+const steps = [
+  'Niyetini belirle ve bir soru seç.',
+  'Falını keşfet ve sembolleri incele.',
+  'Günün rehberliğini kişisel notlarına ekle.',
+];
 
 function App() {
+  const [fortune, setFortune] = useState(fortunes[0]);
+
+  const handleNewFortune = () => {
+    const next = fortunes[Math.floor(Math.random() * fortunes.length)];
+    setFortune(next);
+  };
+
   return (
-    <div>
-      <h1>Welcome to the Fortune Teller App!</h1>
-      <p>Get ready to discover your future.</p>
+    <div className="app">
+      <header className="hero">
+        <nav className="nav">
+          <span className="logo">FortuneTeller</span>
+          <div className="nav-links">
+            <a href="#ozellikler">Özellikler</a>
+            <a href="#deneyim">Deneyim</a>
+            <a href="#iletisim">İletişim</a>
+          </div>
+          <button className="nav-button">Şimdi Keşfet</button>
+        </nav>
+
+        <div className="hero-content">
+          <div className="hero-text">
+            <p className="eyebrow">🔮 Yeni nesil fal deneyimi</p>
+            <h1>
+              Kişisel rehberin <span>gökyüzünden</span> ilham alıyor.
+            </h1>
+            <p className="subtitle">
+              FortuneTeller, modern tasarım ve zamansız gelenekleri bir araya
+              getirerek sana özel bir fal yolculuğu sunar. Günlük rehberlik,
+              sezgisel analizler ve huzur veren ritüeller burada.
+            </p>
+            <div className="hero-actions">
+              <button className="primary" onClick={handleNewFortune}>
+                Falımı Yenile
+              </button>
+              <button className="ghost">Uygulamayı İncele</button>
+            </div>
+            <div className="fortune-card">
+              <p className="fortune-title">Günün Mesajı</p>
+              <p className="fortune-text">“{fortune}”</p>
+            </div>
+          </div>
+          <div className="hero-visual">
+            <div className="orb" />
+            <div className="glass-card">
+              <p className="glass-title">Bugünkü Enerji</p>
+              <p className="glass-score">%86 Uyum</p>
+              <p className="glass-detail">
+                Sezgilerin güçlü. Yaratıcı kararlar için ideal zaman.
+              </p>
+              <div className="glass-tags">
+                <span>İlham</span>
+                <span>Netlik</span>
+                <span>Denge</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section className="section" id="ozellikler">
+          <div className="section-header">
+            <h2>Modern ritüeller, net rehberlik</h2>
+            <p>
+              Tasarım odaklı deneyimimizle falına her baktığında sakinlik ve
+              merak hissi yaşarsın.
+            </p>
+          </div>
+          <div className="card-grid">
+            {insights.map((item) => (
+              <article key={item.title} className="card">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <button className="link">Detayları gör →</button>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section highlight" id="deneyim">
+          <div>
+            <h2>3 adımda ritüelini oluştur</h2>
+            <p>
+              Kişiselleştirilmiş akışımız, fal deneyimini günlük planına kolayca
+              dahil etmeni sağlar.
+            </p>
+          </div>
+          <ol className="steps">
+            {steps.map((step, index) => (
+              <li key={step}>
+                <span>0{index + 1}</span>
+                <p>{step}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="section" id="iletisim">
+          <div className="cta">
+            <div>
+              <h2>Fal yolculuğunu kişiselleştir</h2>
+              <p>
+                Her gün yeni bir mesaj, yeni bir enerji. FortuneTeller ile
+                sezgilerini güçlendir.
+              </p>
+            </div>
+            <button className="primary">Ücretsiz Başla</button>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <p>© 2024 FortuneTeller. Tüm hakları saklıdır.</p>
+        <div className="footer-links">
+          <a href="#ozellikler">Özellikler</a>
+          <a href="#deneyim">Deneyim</a>
+          <a href="#iletisim">İletişim</a>
+        </div>
+      </footer>
     </div>
   );
 }

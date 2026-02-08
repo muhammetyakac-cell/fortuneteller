@@ -1,1 +1,1 @@
-{\n  \"name\": \"fortuneteller\",\n  \"version\": \"1.0.0\",\n  \"description\": \"A fortune telling application\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"test\": \"echo 'Error: no test specified' && exit 1\"\n  },\n  \"keywords\": [],\n  \"author\": \"Muhammet Yakac\",\n  \"license\": \"ISC\"\n}
+{"name": "fortuneteller", "version": "1.0.0", "description": "A fortune telling application", "main": "index.js", "scripts": {"test": "echo Error: no test specified && exit 1"}, "keywords": [], "author": "Muhammet Yakac", "license": "ISC"}

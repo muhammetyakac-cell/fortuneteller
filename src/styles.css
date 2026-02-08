@@ -35,6 +35,12 @@ textarea {
   color: inherit;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -147,6 +153,9 @@ textarea {
   padding: 18px 20px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .fortune-title {
@@ -154,11 +163,15 @@ textarea {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: rgba(255, 255, 255, 0.65);
-  margin-bottom: 8px;
 }
 
 .fortune-text {
   font-size: 1rem;
+}
+
+.fortune-tone {
+  font-size: 0.85rem;
+  color: rgba(247, 247, 251, 0.7);
 }
 
 .hero-visual {
@@ -225,7 +238,7 @@ textarea {
 }
 
 .section-header {
-  max-width: 560px;
+  max-width: 620px;
   margin-bottom: 36px;
 }
 
@@ -378,6 +391,72 @@ textarea {
   color: rgba(247, 247, 251, 0.7);
 }
 
+.dream-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.dream-input {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dream-output {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dream-image span {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: rgba(247, 247, 251, 0.6);
+}
+
+.dream-prompt {
+  font-size: 0.9rem;
+  color: rgba(247, 247, 251, 0.7);
+}
+
+.ar-card {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.notifications-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 200px 1fr;
+  align-items: start;
+}
+
+.notification-list {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.notification-list ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
 .highlight {
   background: rgba(255, 255, 255, 0.04);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -435,6 +514,12 @@ textarea {
 .footer-links {
   display: flex;
   gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .notifications-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {

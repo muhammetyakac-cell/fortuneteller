@@ -1,15 +1,31 @@
 import React, { useMemo, useState } from 'react';
 
-const fortunes = [
-  'Bugün cesur bir karar, yarın büyük bir fırsat getirir.',
-  'Kalbini dinlediğinde doğru yolu bulacaksın.',
-  'Yolun, yeni bir dostlukla aydınlanıyor.',
-  'Sürpriz bir teklif motivasyonunu tazeleyecek.',
-  'Küçük bir adım, büyük bir dönüşüm başlatır.',
-  'Sevgi ve emek birleştiğinde bereket artar.',
-  'Yakında güzel bir haber sabrını ödüllendirecek.',
-  'Hayal ettiğin plan, beklenmedik bir destekle büyür.',
-];
+const fortunes = {
+  positive: [
+    'Bugün cesur bir karar, yarın büyük bir fırsat getirir.',
+    'Kalbini dinlediğinde doğru yolu bulacaksın.',
+    'Sürpriz bir teklif motivasyonunu tazeleyecek.',
+    'Hayal ettiğin plan, beklenmedik bir destekle büyür.',
+  ],
+  calm: [
+    'Küçük bir adım, büyük bir dönüşüm başlatır.',
+    'Sevgi ve emek birleştiğinde bereket artar.',
+    'Yolun, yeni bir dostlukla aydınlanıyor.',
+    'Bugün sakinlik, iç sesini daha net duymanı sağlar.',
+  ],
+  uplifting: [
+    'Yükünü hafifleten bir haber kapıda, sabrın ödüllenecek.',
+    'İçindeki ışık, bugün sana en doğru yolu gösterecek.',
+    'Yavaşla; kendine şefkat gösterdiğinde her şey değişir.',
+    'Gönlün ferahladıkça güzel sürprizler çoğalır.',
+  ],
+  playful: [
+    'Enerjin yüksek, şansın da seninle dalga geçmeyecek!',
+    'Bugün evrenin esprisi sensin; gülümse ve devam et.',
+    'Merakın seni harika bir keşfe sürükleyecek.',
+    'Şansın kıpır kıpır; bir anda parlayabilirsin.',
+  ],
+};
 
 const insights = [
   {
@@ -54,11 +70,44 @@ const ritualChecklist = [
   'Fal notunu günlüğüne kaydet.',
 ];
 
+const positiveWords = [
+  'mutlu',
+  'neşeli',
+  'heyecanlı',
+  'harika',
+  'güzel',
+  'enerjik',
+  'umut',
+  'keyifli',
+];
+const negativeWords = [
+  'üzgün',
+  'kırgın',
+  'yorgun',
+  'kötü',
+  'stres',
+  'endişe',
+  'kaygı',
+  'karamsar',
+];
+
+const toneLabels = {
+  uplifting: 'Umut verici ve nazik',
+  playful: 'Enerjik ve esprili',
+  calm: 'Dengeli ve sakin',
+  positive: 'Pozitif ve net',
+};
+
 function App() {
-  const [fortune, setFortune] = useState(fortunes[0]);
+  const [fortune, setFortune] = useState(fortunes.positive[0]);
   const [mood, setMood] = useState(72);
   const [note, setNote] = useState('');
   const [completedRituals, setCompletedRituals] = useState([]);
+  const [moodInput, setMoodInput] = useState('');
+  const [tone, setTone] = useState('positive');
+  const [dreamInput, setDreamInput] = useState('');
+  const [dreamResult, setDreamResult] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   const luckyNumbers = useMemo(() => {
     const numbers = new Set();
@@ -72,8 +121,11 @@ function App() {
     return tarotCards[Math.floor(Math.random() * tarotCards.length)];
   }, [fortune]);
 
+  const currentFortunePool = fortunes[tone] || fortunes.positive;
+
   const handleNewFortune = () => {
-    const next = fortunes[Math.floor(Math.random() * fortunes.length)];
+    const next =
+      currentFortunePool[Math.floor(Math.random() * currentFortunePool.length)];
     setFortune(next);
   };
 
@@ -81,6 +133,58 @@ function App() {
     setCompletedRituals((prev) =>
       prev.includes(item) ? prev.filter((ritual) => ritual !== item) : [...prev, item],
     );
+  };
+
+  const analyzeMood = () => {
+    const text = moodInput.toLowerCase();
+    const positiveScore = positiveWords.filter((word) => text.includes(word)).length;
+    const negativeScore = negativeWords.filter((word) => text.includes(word)).length;
+
+    let nextTone = 'calm';
+    if (positiveScore > negativeScore) {
+      nextTone = 'playful';
+    } else if (negativeScore > positiveScore) {
+      nextTone = 'uplifting';
+    } else if (text.length > 0) {
+      nextTone = 'positive';
+    }
+
+    setTone(nextTone);
+    setFortune(
+      fortunes[nextTone][Math.floor(Math.random() * fortunes[nextTone].length)],
+    );
+  };
+
+  const interpretDream = () => {
+    if (!dreamInput.trim()) {
+      setDreamResult(null);
+      return;
+    }
+    const themes = [
+      'özgürlük arzusu',
+      'değişime hazırlık',
+      'yaratıcı bir döneme giriş',
+      'kalbini rahatlatma ihtiyacı',
+    ];
+    const highlight = themes[Math.floor(Math.random() * themes.length)];
+    setDreamResult({
+      summary: `Rüyan, ${highlight} ile ilgili güçlü bir mesaj taşıyor.`,
+      prompt: `Mor bulutlar, yumuşak ışıklar ve sembolik detaylarla rüya sahnesi: ${dreamInput}`,
+      image:
+        'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80',
+    });
+  };
+
+  const scheduleNotification = () => {
+    const alerts = [
+      'Merkür retrosu başladı: iletişimde dikkatli ol.',
+      'Venüs geçişi: ilişkilerde yumuşak bir dönem.',
+      'Ay büyüyor: yeni niyetler için ideal zaman.',
+    ];
+    setNotifications((prev) => [
+      ...prev,
+      alerts[Math.floor(Math.random() * alerts.length)],
+    ]);
   };
 
   return (
@@ -117,6 +221,7 @@ function App() {
             <div className="fortune-card">
               <p className="fortune-title">Günün Mesajı</p>
               <p className="fortune-text">“{fortune}”</p>
+              <span className="fortune-tone">Ton: {toneLabels[tone]}</span>
             </div>
           </div>
           <div className="hero-visual">
@@ -190,6 +295,27 @@ function App() {
             </article>
 
             <article className="tool-card">
+              <h3>Duygu Analizi</h3>
+              <p>Yazdıklarından ruh halini analiz edip falın tonunu günceller.</p>
+              <textarea
+                className="note"
+                placeholder="Şu an kendimi..."
+                value={moodInput}
+                onChange={(event) => setMoodInput(event.target.value)}
+              />
+              <div className="note-footer">
+                <span>Ton: {toneLabels[tone]}</span>
+                <button className="primary small" onClick={analyzeMood}>
+                  Analiz Et
+                </button>
+              </div>
+              <p className="tool-footnote">
+                İleride yüz ifadesi analizi için TensorFlow.js entegrasyonu
+                yapılabilir.
+              </p>
+            </article>
+
+            <article className="tool-card">
               <h3>Tarot Seçimi</h3>
               <p>Falını yeniledikçe kartın değişir.</p>
               <div className="tarot-card">
@@ -252,6 +378,67 @@ function App() {
           </div>
         </section>
 
+        <section className="section dream">
+          <div className="section-header">
+            <h2>Rüya Tabircisi</h2>
+            <p>
+              Rüyanı anlat, sana özel yorum ve görselleştirilmiş bir rüya sahnesi
+              oluşturalım.
+            </p>
+          </div>
+          <div className="dream-grid">
+            <div className="dream-input">
+              <textarea
+                className="note"
+                placeholder='Örn: "Uçuyordum ve mor bulutlar vardı."'
+                value={dreamInput}
+                onChange={(event) => setDreamInput(event.target.value)}
+              />
+              <button className="primary" onClick={interpretDream}>
+                Rüyamı Yorumla
+              </button>
+            </div>
+            <div className="dream-output">
+              {dreamResult ? (
+                <>
+                  <h3>Yorum</h3>
+                  <p>{dreamResult.summary}</p>
+                  <div className="dream-image">
+                    <img src={dreamResult.image} alt="Rüya görselleştirmesi" />
+                    <span>Örnek görsel • API entegrasyonu planlı</span>
+                  </div>
+                  <p className="dream-prompt">{dreamResult.prompt}</p>
+                </>
+              ) : (
+                <p>
+                  Rüyanı yazdığında yorum ve görsel burada görünecek.
+                  (Stable Diffusion / DALL·E entegrasyonu ile güçlendirilebilir.)
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="section ar">
+          <div className="section-header">
+            <h2>AR Tarot Masası</h2>
+            <p>
+              Telefon kameranı masaya tuttuğunda sanal tarot kartlarını
+              görebileceğin bir deneyim tasarlıyoruz.
+            </p>
+          </div>
+          <div className="ar-card">
+            <div>
+              <h3>WebXR + AR.js Yol Haritası</h3>
+              <p>
+                Şu an demo modundayız. WebXR destekli cihazlarda gerçek zamanlı
+                kart yerleşimi ve dokunarak seçim sunacağız.
+              </p>
+            </div>
+            <button className="ghost">Demo Takvimini Gör</button>
+          </div>
+        </section>
+
         <section className="section highlight" id="deneyim">
           <div>
             <h2>3 adımda ritüelini oluştur</h2>
@@ -268,6 +455,34 @@ function App() {
               </li>
             ))}
           </ol>
+        </section>
+
+        <section className="section notifications">
+          <div className="section-header">
+            <h2>Gezegen Bildirimleri</h2>
+            <p>
+              Doğum haritan ve anlık transitlere göre kişisel bildirimler planla.
+            </p>
+          </div>
+          <div className="notifications-grid">
+            <button className="primary" onClick={scheduleNotification}>
+              Bildirim Oluştur
+            </button>
+            <div className="notification-list">
+              {notifications.length === 0 ? (
+                <p>Henüz bildirim yok. İlkini oluştur!</p>
+              ) : (
+                <ul>
+                  {notifications.map((item, index) => (
+                    <li key={`${item}-${index}`}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+          <p className="tool-footnote">
+            NASA API'leri veya Swiss Ephemeris ile tam entegrasyon mümkün.
+          </p>
         </section>
 
         <section className="section" id="iletisim">

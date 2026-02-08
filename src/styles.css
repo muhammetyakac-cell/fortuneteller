@@ -29,6 +29,12 @@ button {
   cursor: pointer;
 }
 
+input,
+textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -117,12 +123,22 @@ button {
   box-shadow: 0 16px 40px rgba(236, 72, 153, 0.3);
 }
 
+.primary.small {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+}
+
 .ghost {
   padding: 12px 26px;
   border-radius: 999px;
   background: transparent;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ghost.small {
+  padding: 8px 18px;
+  font-size: 0.9rem;
 }
 
 .fortune-card {
@@ -222,7 +238,8 @@ button {
   color: rgba(247, 247, 251, 0.7);
 }
 
-.card-grid {
+.card-grid,
+.tools-grid {
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -254,6 +271,111 @@ button {
   font-weight: 600;
   text-align: left;
   padding: 0;
+}
+
+.tools {
+  background: rgba(12, 12, 26, 0.65);
+}
+
+.tool-card {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tool-card.full {
+  grid-column: 1 / -1;
+}
+
+.range {
+  width: 100%;
+}
+
+.range-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(247, 247, 251, 0.7);
+}
+
+.tool-footnote {
+  font-size: 0.9rem;
+  color: rgba(247, 247, 251, 0.75);
+}
+
+.tarot-card {
+  background: linear-gradient(140deg, rgba(168, 85, 247, 0.18), rgba(236, 72, 153, 0.15));
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.tarot-card span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.tarot-card strong {
+  font-size: 1.4rem;
+}
+
+.lucky-numbers {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lucky-numbers span {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.checklist {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.checklist label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.95rem;
+}
+
+.checklist input {
+  accent-color: #c084fc;
+  margin-top: 4px;
+}
+
+.note {
+  width: 100%;
+  min-height: 140px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(7, 7, 18, 0.65);
+  padding: 14px;
+  resize: vertical;
+}
+
+.note-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(247, 247, 251, 0.7);
 }
 
 .highlight {
@@ -328,5 +450,9 @@ button {
   .glass-card {
     position: static;
     margin-top: 20px;
+  }
+
+  .tool-card.full {
+    grid-column: auto;
   }
 }

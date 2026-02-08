@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 const fortunes = [
   'Bugün cesur bir karar, yarın büyük bir fırsat getirir.',
@@ -35,12 +35,52 @@ const steps = [
   'Günün rehberliğini kişisel notlarına ekle.',
 ];
 
+const tarotCards = [
+  'Güneş',
+  'Ay',
+  'Yıldız',
+  'Kader Çarkı',
+  'Aşıklar',
+  'İmparatoriçe',
+  'Bilge',
+  'Güç',
+  'Denge',
+];
+
+const ritualChecklist = [
+  'Derin bir nefes al ve niyetini yaz.',
+  'Bir bardak su içerek enerjini tazele.',
+  'Bugün için tek bir pozitif hedef belirle.',
+  'Fal notunu günlüğüne kaydet.',
+];
+
 function App() {
   const [fortune, setFortune] = useState(fortunes[0]);
+  const [mood, setMood] = useState(72);
+  const [note, setNote] = useState('');
+  const [completedRituals, setCompletedRituals] = useState([]);
+
+  const luckyNumbers = useMemo(() => {
+    const numbers = new Set();
+    while (numbers.size < 3) {
+      numbers.add(Math.floor(Math.random() * 49) + 1);
+    }
+    return Array.from(numbers).sort((a, b) => a - b);
+  }, [fortune]);
+
+  const tarotPick = useMemo(() => {
+    return tarotCards[Math.floor(Math.random() * tarotCards.length)];
+  }, [fortune]);
 
   const handleNewFortune = () => {
     const next = fortunes[Math.floor(Math.random() * fortunes.length)];
     setFortune(next);
+  };
+
+  const toggleRitual = (item) => {
+    setCompletedRituals((prev) =>
+      prev.includes(item) ? prev.filter((ritual) => ritual !== item) : [...prev, item],
+    );
   };
 
   return (
@@ -50,6 +90,7 @@ function App() {
           <span className="logo">FortuneTeller</span>
           <div className="nav-links">
             <a href="#ozellikler">Özellikler</a>
+            <a href="#araclar">Fal Araçları</a>
             <a href="#deneyim">Deneyim</a>
             <a href="#iletisim">İletişim</a>
           </div>
@@ -116,6 +157,101 @@ function App() {
           </div>
         </section>
 
+        <section className="section tools" id="araclar">
+          <div className="section-header">
+            <h2>Fal araçlarıyla ritüelini güçlendir</h2>
+            <p>
+              Günlük enerji ölçer, tarot seçimi, uğurlu sayılar ve not defteriyle
+              fal deneyimini kişiselleştir.
+            </p>
+          </div>
+          <div className="tools-grid">
+            <article className="tool-card">
+              <h3>Enerji Ölçer</h3>
+              <p>Bugün nasıl hissediyorsun? Ruh halini ayarla.</p>
+              <input
+                className="range"
+                type="range"
+                min="0"
+                max="100"
+                value={mood}
+                onChange={(event) => setMood(Number(event.target.value))}
+              />
+              <div className="range-meta">
+                <span>Sakin</span>
+                <strong>%{mood}</strong>
+                <span>Yüksek</span>
+              </div>
+              <p className="tool-footnote">
+                {mood >= 70
+                  ? 'Yaratıcılık yükseliyor, yeni kararlar için ideal.'
+                  : 'Dinlenmeye zaman ayır, enerjini dengede tut.'}
+              </p>
+            </article>
+
+            <article className="tool-card">
+              <h3>Tarot Seçimi</h3>
+              <p>Falını yeniledikçe kartın değişir.</p>
+              <div className="tarot-card">
+                <span>Bugünün kartı</span>
+                <strong>{tarotPick}</strong>
+              </div>
+              <button className="ghost small" onClick={handleNewFortune}>
+                Yeni Kart Çek
+              </button>
+            </article>
+
+            <article className="tool-card">
+              <h3>Uğurlu Sayılar</h3>
+              <p>Günün enerjisine göre seçilen sayılar.</p>
+              <div className="lucky-numbers">
+                {luckyNumbers.map((number) => (
+                  <span key={number}>{number}</span>
+                ))}
+              </div>
+              <button className="ghost small" onClick={handleNewFortune}>
+                Sayıları Yenile
+              </button>
+            </article>
+
+            <article className="tool-card">
+              <h3>Ritüel Listesi</h3>
+              <p>Bugün için mini ritüellerini tamamla.</p>
+              <ul className="checklist">
+                {ritualChecklist.map((item) => (
+                  <li key={item}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={completedRituals.includes(item)}
+                        onChange={() => toggleRitual(item)}
+                      />
+                      <span>{item}</span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
+            <article className="tool-card full">
+              <h3>Kişisel Notlar</h3>
+              <p>Falınla ilgili aklına gelenleri buraya yaz.</p>
+              <textarea
+                className="note"
+                placeholder="Bugünün mesajı bana şunu hatırlattı..."
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
+              />
+              <div className="note-footer">
+                <span>{note.length} karakter</span>
+                <button className="primary small" onClick={() => setNote('')}>
+                  Temizle
+                </button>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <section className="section highlight" id="deneyim">
           <div>
             <h2>3 adımda ritüelini oluştur</h2>
@@ -152,6 +288,7 @@ function App() {
         <p>© 2024 FortuneTeller. Tüm hakları saklıdır.</p>
         <div className="footer-links">
           <a href="#ozellikler">Özellikler</a>
+          <a href="#araclar">Fal Araçları</a>
           <a href="#deneyim">Deneyim</a>
           <a href="#iletisim">İletişim</a>
         </div>

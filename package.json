@@ -9,7 +9,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "echo \"No tests specified\" && exit 0",
+    "install:clean": "env -u http_proxy -u https_proxy -u HTTP_PROXY -u HTTPS_PROXY npm install"
   },
   "keywords": [],
   "author": "Muhammet Yakac",
